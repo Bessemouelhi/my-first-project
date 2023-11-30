@@ -1,0 +1,47 @@
+<h3>Cart</h3>
+
+<p>
+  <a routerLink="/shipping">Shipping Prices</a>
+</p>
+
+<div class="cart-item" *ngFor="let item of items; index as i">
+  <span>{{ item.name }}</span>
+  <span>{{ item.price | currency }}</span>
+  <span>{{ i }}</span>
+  <button type="button" (click)="removeItem(i)">
+    <em class="material-icons">delete</em>
+  </button>
+</div>
+
+<button type="button" *ngIf="items.length > 0" (click)="clearCart()">
+  Vider le panier
+</button>
+<span *ngIf="items.length === 0">Votre panier est vide !</span>
+
+<hr />
+<br />
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name"> Name </label>
+    <input id="name" type="text" formControlName="name" />
+  </div>
+
+  <div>
+    <label for="address"> Address </label>
+    <input id="address" type="text" formControlName="address" />
+  </div>
+
+  <div>
+    <label for="selectedOption">Choose an option:</label>
+    <select id="selectedOption" formControlName="selectedOption">
+      <option [ngValue]="null" disabled>Select delivery type</option>
+      <option *ngFor="let option of options" [value]="option.type">
+        {{ option.type }}
+      </option>
+    </select>
+  </div>
+  <br />
+
+  <button class="button" type="submit">Purchase</button>
+</form>
